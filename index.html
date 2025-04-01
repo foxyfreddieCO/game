@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Games Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #222;
+            border-radius: 15px;
+            padding: 10px 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo img {
+            height: 60px;
+            width: 60px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .games-button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .games-button:hover {
+            background-color: #555;
+        }
+
+        .search-bar {
+            background-color: #444;
+            color: white;
+            border: 2px solid #555;
+            border-radius: 5px;
+            padding: 5px 10px;
+            width: 175px;
+            font-size: 1em;
+            text-align: center;
+            transition: width 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .search-bar::placeholder {
+            color: #aaa;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #777;
+            background-color: #555;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .games {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-align: left;
+            transform-origin: center;
+            position: relative;
+            height: 220px;  /* Fixed height to prevent resizing */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;  /* Prevent image overflow */
+            box-sizing: border-box;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.05) rotate(3deg);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-card {
+            border: 3px solid transparent; /* Start with no border */
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            border: 3px solid white; /* Add white border on hover */
+        }
+
+        /* Image Wrapper */
+        .game-card .image-wrapper {
+            width: 100%;
+            height: 140px; /* Limit image height to prevent overflow */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .game-card p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .game-description {
+            font-size: 14px;
+            color: #ccc;
+            margin-top: 5px;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .game-card:hover .game-description {
+            opacity: 0.8;
+        }
+
+        /* Game Card Tags */
+        .game-tag {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: white;
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo" onclick="window.location.href='home.html'">
+            <img src="logo.png" alt="Site Logo">
+        </div>
+        
+        <!-- Search Bar in the header -->
+        <input 
+            type="text" 
+            class="search-bar" 
+            id="search-bar" 
+            placeholder="Search Here" 
+            oninput="filterGames()"
+        >
+
+        <!-- Games button redirects to the games list page -->
+        <button class="games-button" onclick="window.location.href='index.html'">Games</button>
+    </div>
+
+    <!-- Container for the Game List -->
+    <div class="container">
+        <!-- The game list will be appended here -->
+        <div class="games" id="game-list"></div>
+    </div>
+
+    <script>
+const games = [
+    {
+        name: "Suggest a Game",
+        image: "images/suggestagame.jpg",
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSdMRsW-FgwzZ6WmOdG47YcsqxVqdA_NdSym2-mA96qZfR3X-g/viewform?usp=dialog",
+        description: "",
+        tag: "Suggestions"
+    },
+    {
+        name: "Eggy Car",
+        image: "images/eggycar.jpg",
+        url: "htmls/eggycar.html",
+        description: "A game in which you have an egg in a car and you need to strategically drive to prevent the egg from breaking.",
+        tag: "Strategy"
+    },
+    {
+        name: "Basketball Stars",
+        image: "images/basketballstars.jpg",
+        url: "htmls/basketballstars.html",
+        description: "A simple, yet addictive cartoon basketball game.",
+        tag: "Sports"
+    },
+    {
+        name: "A Small World Cup",
+        image: "images/asmallworldcup.jpg",
+        url: "htmls/asmallworldcup.html",
+        description: "A pixelated soccer/football game with unique controls that lets you simulate the World Cup.",
+        tag: "Sports"
+    },
+    {
+        name: "Retro Bowl",
+        image: "images/retrobowl.jpg",
+        url: "htmls/retrobowl.html",
+        description: "Pixelated American Football game with unique controls that you act as a manager of a team and play NFL Seasons.",
+        tag: "Sports"
+    },
+    {
+        name: "Flappy Bird",
+        image: "images/flappybird.jpg",
+        url: "htmls/flappybird.html",
+        description: "A timing based game that you play as a flying bird and try to avoid hitting pipes.",
+        tag: "Timing"
+    }
+];
+
+const gameList = document.getElementById("game-list");
+
+// Function to display the games
+function displayGames(filteredGames) {
+    gameList.innerHTML = '';
+    filteredGames.forEach(game => {
+        const gameCard = document.createElement("div");
+        gameCard.className = "game-card";
+        gameCard.onclick = () => window.location.href = game.url;
+
+        gameCard.innerHTML = `
+            <div class="game-tag">${game.tag}</div>
+            <div class="image-wrapper">
+                <img src="${game.image}" alt="${game.name}">
+            </div>
+            <p><strong>${game.name}</strong></p>
+            <div class="game-description">${game.description}</div>
+        `;
+        gameList.appendChild(gameCard);
+    });
+}
+
+// Display all games initially
+displayGames(games);
+
+// Function to filter games based on search input
+function filterGames() {
+    const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+    if (searchTerm) {
+        const filteredGames = games.filter(game => 
+            game.name.toLowerCase().includes(searchTerm) || 
+            game.tag.toLowerCase().includes(searchTerm) // Filter by tag too
+        );
+        displayGames(filteredGames);
+    } else {
+        displayGames(games);
+    }
+}
+    </script>    
+</body>
+</html>
